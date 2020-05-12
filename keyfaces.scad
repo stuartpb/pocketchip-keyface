@@ -10,8 +10,8 @@ bubble_radius = 1.5;
 
 $fn = 24;
 
-module label(s,size) {
-  text(s,size*font_scale,font="Overpass",halign="center", valign="center");
+module label(s,size,font="Overpass:style=ExtraBold") {
+  text(s,size*font_scale,font,halign="center", valign="center");
 }
 
 module key_row(keys,size) {
@@ -44,67 +44,69 @@ module fn_hint_row(odd) {
   translate([i*10.15,0]) bubbled() rotate(-30) label(str("F",(i+1)*2-odd),1.1);
 }
 
-//circle(3,$fn=90);
-
 module key_faces () {
   translate([-45.66,25]) label("ESC", esc_size);
-  translate([-45.66,4.5]) key_row("QWERTYUIOP", letter_size);
-  translate([-40.66,-3.8]) key_row("ASDFGHJKL", letter_size);
-  translate([-35.51,-12.2]) key_row("ZXCVBNM", letter_size);
-  translate([-45.66,-12.2]) label("↹", 3);
+  translate([-45.66,4.52]) key_row("QWERTYUIOP", letter_size);
+  translate([-40.58,-3.77]) key_row("ASDFGHJKL", letter_size);
+  translate([-35.51,-12.07]) key_row("ZXCVBNM", letter_size);
+  translate([-45.66,-12.07]) label("↹", 3);
   translate([-15.4,23.2]) {
-    translate([-.5,-1]) key_row("13579-",digit_size);
-    //translate([-1.8,.6]) key_row("FFFFF",fnote_size);
-    //translate([49.25,1.2]) rotate(45) label("F11",fnote_size);
-    translate([1.8,.6]) key_row("!#%&(_",symbol_size);
+    translate([-.8,-.8]) key_row("13579-",digit_size);
+    translate([1.4,.8]) key_row("!#%&(_",symbol_size);
   }
   translate([46.4,23]) label("⇤",4);
   translate([-10.2,14.9]) {
-    translate([-.5,-1]) key_row("24680=",digit_size);
-    //translate([-1.8,.6]) key_row("FFFF",fnote_size);
-    //translate([38.8,.6]) rotate(-45) label("F1",fnote_size);
-    //translate([49.25,1.2]) rotate(45) label("F12",fnote_size);
-    translate([1.8,.6]) key_row("@$^*)+",symbol_size);
+    translate([-.8,-.8]) key_row("24680=",digit_size);
+    translate([1.4,.8]) key_row("@$^*)+",symbol_size);
   }
-  translate([35.4,-12.2]) {
+  translate([35.4,-12.07]) {
     translate([-.5,-1]) label(".", digit_size);
     translate([1.8,.6]) label(",", symbol_size);
   }
-  translate([46.55,-12.2]) label("↵", 4);
-  translate([-40.66,-20.35]) label("SHIFT", 1.5);
+  translate([46.55,-12.07]) label("↵", 4);
+  translate([-40.58,-20.37]) label("⇧", 4,font="Mplus 1P");
   translate([-30.43,-20.37]) difference() {
     circle(3);
     label("FN", 2.5);
   }
-  translate([-20.35,-20.35]) label("ALT", 2);
-  translate([20.25,-20.35]) label("CTRL", 1.5);
+  translate([-20.35,-20.37]) label("ALT", 2);
+  translate([20.25,-20.37]) label("CTRL", 1.5);
   translate([30.4,-20.0]) {
-    translate([-.5,-1]) label("/", digit_size);
-    translate([1.8,.6]) label("?", symbol_size);
+    translate([-.8,-.8]) label("/", digit_size);
+    translate([1.4,.8]) label("?", symbol_size);
   }
-  translate([40.55,-20.35]) label("SHIFT", 1.5);
-  translate([0,-32]) label("HOME", 1.5);
+  translate([40.55,-20.37]) label("⇧", 4,font="Mplus 1P");
+  translate([0,-31.9]) {
+    intersection() {
+      circle(4.4);
+      union() {
+        translate([-4.41,0]) square(4.4);
+        translate([0,-4.41]) square(4.4);
+      }
+    }
+  }
 }
 
 module faceplate_hints () {
-  translate([5.09,4.5]) bubbled_row("{}[]|", symbol_size*.8);
-  translate([10.09,-3.8]) bubbled_row("<>'\"", symbol_size*.8);
-  translate([5.09,-12.2]) bubbled_row("`~:;", symbol_size*.8);
-  translate([30.4,-20.35]) bubbled() label("\\",symbol_size*.8);
+  translate([5.09,4.52]) bubbled_row("{}[]|", symbol_size*.8);
+  translate([10.09,-3.77]) bubbled_row("<>'\"", symbol_size*.8);
+  translate([5.09,-12.07]) bubbled_row("`~:;", symbol_size*.8);
+  translate([30.4,-20.37]) bubbled() label("\\",symbol_size*.8);
   translate([-15.4,23.2]) fn_hint_row(1);
   translate([-10.2,14.9]) fn_hint_row(0);
 }
 
 module key_base() {
-  translate([0,0,-28]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Keys.stl");
+  translate([0,0,-29]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Keys.stl");
 }
 
 module faceplate_base() {
-  translate([0,-32.5,-69]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Faceplate.stl");
+  translate([0,-32.5,-70]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Faceplate.stl");
 }
-
-key_base();
+difference() {
+color("yellow") key_base();
 rotate([180,0,0]) {
-  #key_faces();
-  //#faceplate_hints();
+  color("black") linear_extrude(1) key_faces();
+  //color("black") linear_extrude(1) faceplate_hints();
+}
 }
