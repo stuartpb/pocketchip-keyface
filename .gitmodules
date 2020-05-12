@@ -1,0 +1,3 @@
+[submodule "PocketCHIP-Keyboard-Faceplate"]
+	path = PocketCHIP-Keyboard-Faceplate
+	url = git@gitlab.com:vjapolitzer/PocketCHIP-Keyboard-Faceplate.git
