@@ -29,16 +29,6 @@ module dir_tri() {
   ]);
 }
 
-module bubbled () {
-  translate([-5,2.6]) difference() {
-    union() {
-      circle(bubble_radius);
-      rotate(-30) translate([0,-bubble_radius]) square(2*bubble_radius);
-    }
-    children();
-  }
-}
-
 module key_row(keys,size) {
   for (i=[0:len(keys)-1])
   translate([i*10.15,0]) label(keys[i],size);
@@ -47,11 +37,6 @@ module key_row(keys,size) {
 module double_row(digits, symbols) {
   translate([-1.25,-.5]) key_row(digits,digit_size);
   translate([1.2,.5]) offset(delta=0.02) key_row(symbols,symbol_size,$fn=48);
-}
-
-module bubbled_row(keys,size) {
-  for (i=[0:len(keys)-1])
-  translate([i*10.15,0]) bubbled() label(keys[i],size);
 }
 
 module key_faces () {
@@ -95,10 +80,64 @@ module key_faces () {
 }
 
 module faceplate_hints () {
-  translate([5.09,4.52]) bubbled_row("{}[]|", symbol_size*.8);
-  translate([10.09,-3.77]) bubbled_row("<>'\"", symbol_size*.8);
-  translate([5.09,-12.07]) bubbled_row("`~:;", symbol_size*.8);
-  translate([30.4,-20.37]) bubbled() label("\\",symbol_size*.8);
+  difference() {
+    union() {
+      hull() {
+        translate([-18,26]) circle(4.4);
+        translate([46,26]) circle(4.4);
+        translate([40,14.9]) circle(5);
+        //translate([5,4.52]) circle(5);
+        //translate([10,-3.77]) circle(5);
+        translate([-10.2,14.9]) circle(5);
+      }
+      hull() {
+        translate([35,25]) circle(6);
+        translate([48,29]) circle(4.4);
+        translate([45,5.5]) circle(5.5);
+        translate([30.4,-20.37]) circle(4.4);
+        translate([25,-12.07]) circle(3.5);
+      }
+      hull() {
+        translate([20,10]) circle(5);
+        translate([30,-12.07]) circle(4.4);
+        translate([5,-12.07]) circle(5);
+        translate([30.4,10]) circle(5);
+      }
+      polygon([[16,12],[4.4,-4.2],[1,1.5],[0,4.5],[-4.5,9.5],[-10,10]]);
+      translate([5,4.52]) circle(5);
+      translate([5,-11.5]) circle(5);
+    }
+  translate([0,-3.77]) circle(4.4);
+  translate([-5,4.52]) circle(5);
+  //translate([-5,4.52]) circle(5);
+  translate([-19,27]) label("F",4);
+  translate([30,14.9]) difference() {
+    translate([-3,1]) circle(2.4);
+    translate([-4,1]) label("1",2.5);
+  }
+  translate([36,23.2]) difference() {
+    hull () {
+      circle(2.4);
+      translate([3.5,4]) circle(2.4);
+    }
+    translate([3.5,4]) label("11",2.5);
+  }
+  translate([42,14.9]) difference() {
+    hull () {
+      circle(2.4);
+      translate([4,0.8]) circle(2.4);
+    }
+    translate([4.1,0.8]) label("12",2.5);
+  }
+    translate([5.09,11]) key_row("{}[]", symbol_size);
+    translate([46.1,11]) square([0.5,3.6], center=true);
+    translate([10.09,1.5]) key_row("<>'\"", symbol_size);
+    translate([5.09,-7.07]) key_row("`~", symbol_size);
+    translate([25.39,-6.07]) key_row(":;", symbol_size);
+    translate([31,-14.37]) label("\\",symbol_size);
+    translate([47,30]) label("⌦",5,font="Overpass Mono");
+    translate([20.25,-20.37]) circle(5);
+  }
 }
 
 module key_base() {
@@ -110,13 +149,13 @@ module key_base() {
 }
 
 module faceplate_base() {
-  translate([0,-32.5,-69]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Faceplate.stl");
+  translate([0,-32.5,-70]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Faceplate.stl");
 }
-difference() {
-  color("yellow") key_base();
-  //color("yellow") faceplate_base();
+intersection() {
+  //color("yellow") key_base();
+  color("yellow") faceplate_base();
   rotate([180,0,0]) {
-    color("black") linear_extrude(1) key_faces();
-    //color("black") linear_extrude(1) faceplate_hints();
+    //color("black") linear_extrude(1) key_faces();
+    color("black") linear_extrude(1) faceplate_hints();
   }
 }
