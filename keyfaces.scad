@@ -140,11 +140,24 @@ module faceplate_hints () {
   }
 }
 
+module button_safezone () {
+  translate([0,-5.5]) linear_extrude(2,scale=1.5) circle(3);
+}
+
+module dpad_carveout() {
+  translate([dpad_center[0],-dpad_center[1],-1]) difference () {
+      linear_extrude(2,scale=.75) square(10,center=true);
+    button_safezone();
+    rotate(90) button_safezone();
+    rotate(180) button_safezone();
+    rotate(270) button_safezone();
+  }
+}
+
 module key_base() {
   difference() {
     translate([0,0,-29]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Keys.stl");
-    translate([dpad_center[0],-dpad_center[1],-1])
-      linear_extrude(2,scale=.5) square(10,center=true);
+    dpad_carveout();
   }
 }
 
@@ -152,10 +165,10 @@ module faceplate_base() {
   translate([0,-32.5,-70]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Faceplate.stl");
 }
 intersection() {
-  //color("yellow") key_base();
-  color("yellow") faceplate_base();
+  color("yellow") key_base();
+  //color("yellow") faceplate_base();
   rotate([180,0,0]) {
-    //color("black") linear_extrude(1) key_faces();
-    color("black") linear_extrude(1) faceplate_hints();
+    color("black") linear_extrude(1) key_faces();
+    //color("black") linear_extrude(1) faceplate_hints();
   }
 }
