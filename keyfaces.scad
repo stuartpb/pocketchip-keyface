@@ -79,15 +79,13 @@ module key_faces () {
   }
 }
 
-module faceplate_hints () {
-  difference() {
+module fnkey_town () {
+  difference () {
     union() {
       hull() {
         translate([-18,26]) circle(4.4);
         translate([46,26]) circle(4.4);
         translate([40,14.9]) circle(5);
-        //translate([5,4.52]) circle(5);
-        //translate([10,-3.77]) circle(5);
         translate([-10.2,14.9]) circle(5);
       }
       hull() {
@@ -107,36 +105,45 @@ module faceplate_hints () {
       translate([5,4.52]) circle(5);
       translate([5,-11.5]) circle(5);
     }
-  translate([0,-3.77]) circle(4.4);
-  translate([-5,4.52]) circle(5);
-  //translate([-5,4.52]) circle(5);
-  translate([-19,27]) label("F",4);
-  translate([30,14.9]) difference() {
-    translate([-3,1]) circle(2.4);
-    translate([-4,1]) label("1",2.5);
-  }
-  translate([36,23.2]) difference() {
-    hull () {
-      circle(2.4);
-      translate([3.5,4]) circle(2.4);
-    }
-    translate([3.5,4]) label("11",2.5);
-  }
-  translate([42,14.9]) difference() {
-    hull () {
-      circle(2.4);
-      translate([4,0.8]) circle(2.4);
-    }
-    translate([4.1,0.8]) label("12",2.5);
-  }
-    translate([5.09,11]) key_row("{}[]", symbol_size);
-    translate([46.1,11]) square([0.5,3.6], center=true);
-    translate([10.09,1.5]) key_row("<>'\"", symbol_size);
-    translate([5.09,-7.07]) key_row("`~", symbol_size);
-    translate([25.39,-6.07]) key_row(":;", symbol_size);
-    translate([31,-14.37]) label("\\",symbol_size);
-    translate([47,30]) label("⌦",5,font="Overpass Mono");
+    translate([0,-3.77]) circle(4.4);
+    translate([-5,4.52]) circle(5);
     translate([20.25,-20.37]) circle(5);
+  }
+}
+
+module fnkey_marks() {
+    translate([-19,27]) label("F",4);
+    translate([30,14.9]) difference() {
+      translate([-3,1]) circle(2.4);
+      translate([-4,1]) label("1",2.5);
+    }
+    translate([36,23.2]) difference() {
+      hull () {
+        circle(2.4);
+        translate([3.5,4]) circle(2.4);
+      }
+      translate([3.5,4]) label("11",2.5);
+    }
+    translate([42,14.9]) difference() {
+      hull () {
+        circle(2.4);
+        translate([4,0.8]) circle(2.4);
+      }
+      translate([4.1,0.8]) label("12",2.5);
+    }
+      translate([5.09,11]) key_row("{}[]", symbol_size);
+      translate([46.1,11]) square([0.5,3.6], center=true);
+      translate([10.09,1.5]) key_row("<>'\"", symbol_size);
+      translate([5.09,-7.07]) key_row("`~", symbol_size);
+      translate([25.39,-6.07]) key_row(":;", symbol_size);
+      translate([31,-14.37]) label("\\",symbol_size);
+      translate([47,30]) label("⌦",5,font="Overpass Mono");
+}
+
+module faceplate_hints () {
+  difference() {
+    fnkey_town();
+    fnkey_marks();
   }
 }
 
@@ -165,10 +172,10 @@ module faceplate_base() {
   translate([0,-32.5,-70]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Faceplate.stl");
 }
 intersection() {
-  color("yellow") key_base();
-  //color("yellow") faceplate_base();
+  //color("yellow") key_base();
+  color("yellow") faceplate_base();
   rotate([180,0,0]) {
-    color("black") linear_extrude(1) key_faces();
-    //color("black") linear_extrude(1) faceplate_hints();
+    //color("black") linear_extrude(1) key_faces();
+    color("black") linear_extrude(1) faceplate_hints();
   }
 }
