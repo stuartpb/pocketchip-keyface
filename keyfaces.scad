@@ -79,39 +79,7 @@ module key_faces () {
   }
 }
 
-module fnkey_town () {
-  difference () {
-    union() {
-      hull() {
-        translate([-18,26]) circle(4.4);
-        translate([46,26]) circle(4.4);
-        translate([40,14.9]) circle(5);
-        translate([-10.2,14.9]) circle(5);
-      }
-      hull() {
-        translate([35,25]) circle(6);
-        translate([48,29]) circle(4.4);
-        translate([45,5.5]) circle(5.5);
-        translate([30.4,-20.37]) circle(4.4);
-        translate([25,-12.07]) circle(3.5);
-      }
-      hull() {
-        translate([20,10]) circle(5);
-        translate([30,-12.07]) circle(4.4);
-        translate([5,-12.07]) circle(5);
-        translate([30.4,10]) circle(5);
-      }
-      polygon([[16,12],[4.4,-4.2],[1,1.5],[0,4.5],[-4.5,9.5],[-10,10]]);
-      translate([5,4.52]) circle(5);
-      translate([5,-11.5]) circle(5);
-    }
-    translate([0,-3.77]) circle(4.4);
-    translate([-5,4.52]) circle(5);
-    translate([20.25,-20.37]) circle(5);
-  }
-}
-
-module fnkey_marks() {
+module faceplate_hints () {
     translate([-15.4,28.5]) key_row(["F1","F3","F5","F7","F9","F11"], fnote_size);
     translate([-10.2,20]) key_row(["F2","F4","F6","F8"], fnote_size);
     translate([30.45,19.85]) key_row(["F10","F12"], 2);
@@ -122,20 +90,6 @@ module fnkey_marks() {
     translate([25.39,-6.07]) key_row(":;", symbol_size);
     translate([31,-14.37]) label("\\",symbol_size);
     translate([47,30]) label("⌦",5,font="Overpass Mono");
-}
-
-module outline() {
-  difference() {
-    offset(delta=0.25) children();
-    offset(delta=-0.25) children();
-  }
-}
-
-module faceplate_hints () {
-  union() {
-    outline() fnkey_town();
-    fnkey_marks();
-  }
 }
 
 module button_safezone () {
