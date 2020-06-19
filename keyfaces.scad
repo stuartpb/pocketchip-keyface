@@ -4,7 +4,7 @@ letter_size = 4;
 digit_size = 3;
 symbol_size = 3;
 esc_size = 2;
-fnote_size = 1;
+fnote_size = 2.5;
 font_scale = 1;
 bubble_radius = 1.5;
 
@@ -112,37 +112,28 @@ module fnkey_town () {
 }
 
 module fnkey_marks() {
-    translate([-19,27]) label("F",4);
-    translate([30,14.9]) difference() {
-      translate([-3,1]) circle(2.4);
-      translate([-4,1]) label("1",2.5);
-    }
-    translate([36,23.2]) difference() {
-      hull () {
-        circle(2.4);
-        translate([3.5,4]) circle(2.4);
-      }
-      translate([3.5,4]) label("11",2.5);
-    }
-    translate([42,14.9]) difference() {
-      hull () {
-        circle(2.4);
-        translate([4,0.8]) circle(2.4);
-      }
-      translate([4.1,0.8]) label("12",2.5);
-    }
-      translate([5.09,11]) key_row("{}[]", symbol_size);
-      translate([46.1,11]) square([0.5,3.6], center=true);
-      translate([10.09,1.5]) key_row("<>'\"", symbol_size);
-      translate([5.09,-7.07]) key_row("`~", symbol_size);
-      translate([25.39,-6.07]) key_row(":;", symbol_size);
-      translate([31,-14.37]) label("\\",symbol_size);
-      translate([47,30]) label("⌦",5,font="Overpass Mono");
+    translate([-15.4,28.5]) key_row(["F1","F3","F5","F7","F9","F11"], fnote_size);
+    translate([-10.2,20]) key_row(["F2","F4","F6","F8"], fnote_size);
+    translate([30.45,19.85]) key_row(["F10","F12"], 2);
+    translate([5.09,11]) key_row("{}[]", symbol_size);
+    translate([46.1,11]) square([0.5,3.6], center=true);
+    translate([10.09,1.5]) key_row("<>'\"", symbol_size);
+    translate([5.09,-7.07]) key_row("`~", symbol_size);
+    translate([25.39,-6.07]) key_row(":;", symbol_size);
+    translate([31,-14.37]) label("\\",symbol_size);
+    translate([47,30]) label("⌦",5,font="Overpass Mono");
+}
+
+module outline() {
+  difference() {
+    offset(delta=0.25) children();
+    offset(delta=-0.25) children();
+  }
 }
 
 module faceplate_hints () {
-  difference() {
-    fnkey_town();
+  union() {
+    outline() fnkey_town();
     fnkey_marks();
   }
 }
@@ -171,7 +162,7 @@ module key_base() {
 module faceplate_base() {
   translate([0,-32.5,-70]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Faceplate.stl");
 }
-intersection() {
+difference() {
   //color("yellow") key_base();
   color("yellow") faceplate_base();
   rotate([180,0,0]) {
