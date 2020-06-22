@@ -14,6 +14,11 @@ $fn = 24;
 
 dpad_center = [-30.4368, 19.0053];
 
+keyface_depth = 0.8;
+keyface_plate_hint_depth = 0.6;
+
+overshot = 0.1;
+
 module label(s,size,font="Overpass:style=ExtraBold") {
   text(s,size*font_scale,font,halign="center", valign="center");
 }
@@ -57,7 +62,7 @@ module key_faces () {
   translate([46.55,-12.07]) label("↵", 4);
   translate([-40.58,-20.37]) offset(delta=0.1) label("⇧", 4,font="Mplus 1P");
   translate([-30.43,-20.37]) difference() {
-    circle(3);
+    circle(3.2,$fn=20);
     label("Fn", 2.5);
   }
   translate([-20.35,-20.37]) offset(delta=0.05) label("Alt", 2.5);
@@ -123,19 +128,19 @@ module dpad_carveout() {
 
 module key_base() {
   difference() {
-    translate([0,0,-29]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Keys.stl");
+    translate([0,0,-28.4]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Keys.stl");
     dpad_carveout();
   }
 }
 
 module faceplate_base() {
-  translate([0,-32.5,-70]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Faceplate.stl");
+  translate([0,-32.5,-69.475]) import("PocketCHIP-Keyboard-Faceplate/VJAP_PocketCHIP_Faceplate.stl");
 }
 difference() {
-  color("yellow") key_base();
+  color("black") key_base();
   //color("yellow") faceplate_base();
   rotate([180,0,0]) {
-    color("black") linear_extrude(1) key_faces();
-    //color("black") linear_extrude(1) faceplate_hints();
+    translate([0,0,-keyface_depth]) color("yellow") linear_extrude(keyface_depth+overshot) key_faces();
+    //translate([0,0,-keyface_plate_hint_depth]) color("black") linear_extrude(keyface_plate_hint_depth+overshot) faceplate_hints();
   }
 }
