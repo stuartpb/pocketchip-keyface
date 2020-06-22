@@ -6,6 +6,7 @@ symbol_size = 3;
 hint_size = 3.5;
 esc_size = 2;
 fnote_size = 2.5;
+fnote_squishdigit_size = 2.25;
 font_scale = 1;
 bubble_radius = 1.5;
 
@@ -81,18 +82,20 @@ module key_faces () {
 }
 
 module faceplate_hints () {
+  offset(delta=.05) {
     translate([-15.4,28.5]) key_row(["F1","F3","F5","F7","F9","F11"], fnote_size);
     translate([-10.2,20]) key_row(["F2","F4","F6","F8"], fnote_size);
-    translate([29.3,19.75]) difference() {
-      label("F",2.5);
-      translate([.5,-.5]) square([1,2]);
-    }
-    translate([30.5,19.9]) key_row("11", 2.25);
-    translate([31.75,19.75]) label("0",2.25);
-    translate([41.8,19.9]) label("2",2.25);
-    translate([39.45,19.75]) difference() {
-      label("F",2.5);
-      translate([.5,-.5]) square([1,2]);
+      translate([29.3,19.75]) difference() {
+        label("F",2.5);
+        //translate([.5,-.5]) square([1,2]);
+      }
+      translate([30.5,19.9]) key_row("11", fnote_squishdigit_size);
+      translate([31.75,19.75]) label("0",fnote_squishdigit_size);
+      translate([39.45,19.75]) difference() {
+        label("F",2.5);
+        //translate([2.5,-.5]) square([1,2]);
+      }
+      translate([41.8,19.9]) label("2",fnote_squishdigit_size);
     }
     translate([5.09,11]) key_row("{}[]", hint_size);
     translate([46.1,11]) square([0.6,4], center=true);
